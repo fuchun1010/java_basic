@@ -1,7 +1,6 @@
 package com.tank.observer;
 
 import java.util.Observable;
-import java.util.Observer;
 
 /**
  * @author
