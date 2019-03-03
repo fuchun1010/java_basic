@@ -6,8 +6,10 @@ import com.typesafe.config.ConfigFactory;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Map;
 
+/**
+ * @author fuchun
+ */
 public class PropConfigImpl implements AppConfig {
 
   @Override
