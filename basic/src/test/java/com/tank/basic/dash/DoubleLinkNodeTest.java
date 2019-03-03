@@ -4,6 +4,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 import static org.junit.Assert.*;
 
 public class DoubleLinkNodeTest {
@@ -39,6 +42,12 @@ public class DoubleLinkNodeTest {
     this.doubleLinkNode.delete("hello");
     this.print();
     System.out.println("======");
+  }
+
+  @Test
+  public void testHashFromData() {
+    String[] arr = new String[]{"hello", "doubleLink", "fuchun"};
+    Arrays.stream(arr).map(d -> Math.floorMod(Objects.hashCode(d), 10)).forEach(System.out::println);
   }
 
   private DoubleLinkNode<String, String> doubleLinkNode;
