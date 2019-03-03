@@ -67,7 +67,41 @@ public class DoubleLinkNode<T, R> {
         currentNode = currentNode.next;
       }
     }
+  }
 
+  /**
+   * delete node with value
+   *
+   * @param value
+   * @return
+   */
+  public DoubleLinkNode delete(final R value) {
+    if (Objects.isNull(value)) {
+      throw new NullPointerException("deleted value not allowed null");
+    }
+    Node<T, R> node = this.head;
+    for (; ; ) {
+      node = node.next;
+      if (Objects.isNull(node)) {
+        break;
+      }
+      boolean isEqual = value.equals(node.getData());
+      if (isEqual) {
+        //TODO reset pointer
+        Node<T, R> nextNode = node.next;
+        Node<T, R> preNode = node.prev;
+
+        preNode.next = nextNode;
+        nextNode.prev = preNode;
+
+        node.prev = null;
+        node.next = null;
+
+        break;
+      }
+    }
+
+    return this;
   }
 
   private Node<T, R> findInsertPoint() {

@@ -22,7 +22,7 @@ public class DoubleLinkNodeTest {
     this.doubleLinkNode.addNode(s1);
     this.doubleLinkNode.addNode(s2);
     Assert.assertTrue(this.doubleLinkNode.size() == 2);
-    this.doubleLinkNode.print();
+    //this.doubleLinkNode.print();
   }
 
   @Test
@@ -31,5 +31,17 @@ public class DoubleLinkNodeTest {
   }
 
 
+  @Test
+  public void delete() {
+    this.addNode();
+    this.print();
+    System.out.println("======");
+    this.doubleLinkNode.delete("hello");
+    this.print();
+    System.out.println("======");
+  }
+
   private DoubleLinkNode<String, String> doubleLinkNode;
+
+
 }
