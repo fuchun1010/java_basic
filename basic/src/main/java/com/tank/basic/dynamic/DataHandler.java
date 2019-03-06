@@ -25,7 +25,9 @@ public class DataHandler {
 
 
   public void scanProcessor() {
-    val packagePath = this.fetchProcessorPackagePath();
+    String packagePath = this.fetchProcessorPackagePath();
+    //com.tank.basic.dynamic
+    packagePath = "com.tank.basic";
     Reflections reflections = new Reflections(packagePath);
     Set<Class<?>> clazzes = reflections.getTypesAnnotatedWith(DataSource.class);
     Preconditions.checkArgument(Objects.nonNull(clazzes));
