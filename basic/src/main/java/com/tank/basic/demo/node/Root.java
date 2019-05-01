@@ -3,6 +3,7 @@ package com.tank.basic.demo.node;
 import com.google.common.collect.Lists;
 import lombok.NonNull;
 
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -18,7 +19,9 @@ public class Root extends Node {
 
   public Root addNode(@NonNull final Node newNode) {
 
-    if (this.isEmpty()) {
+    boolean isHeaderNode = Objects.isNull(newNode.getParentId());
+
+    if (this.isEmpty() || isHeaderNode) {
       this.getNodes().add(newNode);
     } else {
       Optional<Node> nodeOpt = this.searchParentNode(newNode.getParentId());
@@ -39,6 +42,7 @@ public class Root extends Node {
   }
 
   public Optional<Node> searchParentNode(final Integer parentId) {
+
 
     boolean isEqual = this.getId().compareTo(parentId) == 0;
 
