@@ -6,9 +6,7 @@ import lombok.val;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.*;
 
 import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -123,6 +121,56 @@ public class RedisTest {
     items.stream().forEach(System.out::println);
   }
 
+  @Test
+  public void testBinaryArrByte() {
+    String key = "u:18623377391";
+    String status = this.handleValue(key, (targetKey, redis) -> {
+      byte[] arr = new byte[366];
+      arr[11] = 1;
+      arr[36] = 1;
+      return redis.set(targetKey.getBytes(), arr);
+    });
+    Assert.assertNotNull(status);
+    Assert.assertTrue("ok".equalsIgnoreCase(status));
+  }
+
+  @Test
+  public void testBinaryValue() {
+    String key = "u:18623377391";
+    Long count = this.handleValue(key, (targetKey, redis) -> redis.bitcount(targetKey));
+    Assert.assertNotNull(count);
+    Assert.assertTrue(count.longValue() > 0);
+    System.out.println(count);
+  }
+
+  @Test
+  public void testIsAllowedAccess() {
+    for (int i = 0; i < 10; i++) {
+      System.out.println(this.isAllowedAccess("jack", "select", 60, 5));
+    }
+
+  }
+
+  private boolean isAllowedAccess(String name, String action, int period, int restriction) {
+    String key = String.format("hit:%s:%s", name, action);
+
+    boolean isAllowed = this.handleValue(key, (targetKey, redis) -> {
+      Pipeline pipeline = redis.pipelined();
+      pipeline.multi();
+      long now = System.currentTimeMillis();
+      pipeline.zadd(targetKey, now, String.valueOf(now));
+      pipeline.zremrangeByScore(targetKey, 0, now - period * 1000);
+      Response<Long> count = pipeline.zcard(targetKey);
+      pipeline.expire(targetKey, period + 1);
+      pipeline.exec();
+      pipeline.close();
+      System.out.println(count.get());
+      return count.get() <= restriction;
+    });
+
+    return isAllowed;
+  }
+
   public <T> T handleValue(Function<Jedis, T> fun) {
     try (Jedis jedis = jedisPool.getResource()) {
       jedis.select(db);
@@ -133,6 +181,7 @@ public class RedisTest {
   public <T> T handleValue(String key, BiFunction<String, Jedis, T> fun) {
     try (Jedis jedis = jedisPool.getResource()) {
       jedis.select(db);
+      jedis.expire(key, 3600);
       return fun.apply(key, jedis);
     }
   }
