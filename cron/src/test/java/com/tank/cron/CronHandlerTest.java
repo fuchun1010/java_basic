@@ -2,19 +2,21 @@ package com.tank.cron;
 
 import com.cronutils.model.time.ExecutionTime;
 import com.google.common.collect.Lists;
+import lombok.SneakyThrows;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 public class CronHandlerTest {
 
   @Test
   public void handleCron() {
-    DateUtil dateUtil = DateUtil.builder();
     Optional<String> nextExecuteTime = Optional.empty();
     try {
       nextExecuteTime = this.cronHandler.handleCron(this.cronStrExp, cron -> {
@@ -40,7 +42,6 @@ public class CronHandlerTest {
   @Test
   public void testPreviewFiveDays() {
     Optional<List<String>> descOpt = this.cronHandler.handleCron(this.cronStrExp, cron -> {
-      DateUtil dateUtil = DateUtil.builder();
       List<String> lists = Lists.newLinkedList();
       for (int i = 1; i <= 5; i++) {
         ZonedDateTime start = ZonedDateTime.now().plusDays(i);
@@ -69,14 +70,29 @@ public class CronHandlerTest {
     System.out.println("differ : " + diffOpt.get());
   }
 
-  
+
+  @Test
+  @SneakyThrows
+  public void testInterval() {
+    LocalDateTime now = LocalDateTime.now();
+    String start = this.dateUtil.dateWithTimeFormatter().format(now);
+    System.out.println("start = " + start);
+    TimeUnit.SECONDS.sleep(10);
+    now = LocalDateTime.now();
+    String end = this.dateUtil.dateWithTimeFormatter().format(now);
+    System.out.println("end = " + end);
+  }
+
 
   @Before
   public void init() {
     this.cronHandler = new CronHandler();
+    this.dateUtil = DateUtil.builder();
   }
 
   private CronHandler cronHandler;
+
+  private DateUtil dateUtil;
 
   private final String EMPTY_STR = "-";
 
