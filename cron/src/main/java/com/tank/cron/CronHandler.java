@@ -11,7 +11,7 @@ import lombok.SneakyThrows;
 
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.BiFunction;
+import java.util.function.Function;
 
 /**
  * @author fuchun
@@ -21,7 +21,7 @@ public class CronHandler {
 
   @SneakyThrows
   public <R> Optional<R> handleCron(@NonNull final String cronStrExp,
-                                    @NonNull final BiFunction<String, CronParser, R> cronHandler) {
+                                    @NonNull final Function<Cron, R> cronHandler) {
     CronParser cronParser = this.initCronParser();
     if (Objects.isNull(cronParser)) {
       throw new NullPointerException("cronParser初始化异常");
@@ -32,7 +32,7 @@ public class CronHandler {
     if (Objects.isNull(rs)) {
       throw new IllegalArgumentException(String.format("[%s]不是spring的cron表达式", cronStrExp));
     }
-    R result = cronHandler.apply(cronStrExp, cronParser);
+    R result = cronHandler.apply(cron);
     return Optional.ofNullable(result);
   }
 
@@ -44,7 +44,7 @@ public class CronHandler {
   }
 
   private CronDefinition initCronDefinition() {
-    CronDefinition cronDefinition = CronDefinitionBuilder.instanceDefinitionFor(CronType.SPRING);
+    CronDefinition cronDefinition = CronDefinitionBuilder.instanceDefinitionFor(CronType.UNIX);
     return cronDefinition;
   }
 }
