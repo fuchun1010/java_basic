@@ -87,7 +87,7 @@ public class CronHandlerTest {
   @Before
   public void init() {
     this.cronHandler = new CronHandler();
-    this.dateUtil = DateUtil.builder();
+    this.dateUtil = DateUtil.build();
   }
 
   private CronHandler cronHandler;

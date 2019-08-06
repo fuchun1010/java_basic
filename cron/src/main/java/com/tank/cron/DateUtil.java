@@ -19,7 +19,12 @@ public class DateUtil {
     return df;
   }
 
-  public static DateUtil builder() {
+  public DateTimeFormatter dateWithoutTimeFormatter() {
+    DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    return df;
+  }
+
+  public static DateUtil build() {
     return new DateUtil();
   }
 

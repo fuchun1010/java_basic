@@ -16,14 +16,16 @@ public class RedisUtil {
   public static RedisUtil build() {
     return Single.Instance.instance();
   }
-  
+
   public <R> Optional<R> handleValue(@NonNull final String key, BiFunction<String, Jedis, R> fun) {
     JedisPool pool = Single.Instance.redisPoolInstance();
     try (Jedis redis = pool.getResource()) {
+      redis.select(5);
       R result = fun.apply(key, redis);
       return Optional.ofNullable(result);
     }
   }
+
 
   private JedisPoolConfig initRedisPoolConfig() {
 
