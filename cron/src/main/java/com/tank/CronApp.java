@@ -25,8 +25,17 @@ public class CronApp {
         }
         repository.consumer();
       }
-    }, "ConsumerThread").start();
-
+    }, "ConsumerThreadA").start();
+    new Thread(() -> {
+      while (true) {
+        try {
+          TimeUnit.MILLISECONDS.sleep(50);
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
+        repository.consumer();
+      }
+    }, "ConsumerThreadB").start();
 
   }
 }

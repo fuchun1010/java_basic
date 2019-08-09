@@ -30,6 +30,17 @@ public class RedisUtilTest {
     System.out.println(opt.get());
   }
 
+  @Test
+  public void testBytes() {
+    byte[] arr = new byte[10];
+    byte[] arr2 = {1, 0, 0, 0, 0, 0, 1, 0, 1, 0};
+    int len = arr.length;
+    for (int i = 0; i < len; i++) {
+      arr[i] = (byte) (arr[i] ^ arr2[i]);
+    }
+    System.out.println();
+  }
+
 
   @Before
   public void initRedisUtil() {
