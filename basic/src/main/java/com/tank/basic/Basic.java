@@ -23,6 +23,7 @@ public class Basic {
 
   }
 
+
   @Data
   @AllArgsConstructor
   public static class Address {
@@ -59,7 +60,7 @@ public class Basic {
       System.out.println(Thread.currentThread().getName());
       synchronized (address) {
         address.wait();
-        
+
         System.out.println("police arrest thief * " + Thread.currentThread().getName());
       }
     }
