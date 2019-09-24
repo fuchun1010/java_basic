@@ -92,6 +92,22 @@ public class BinaryTest {
     Assert.assertFalse(existed);
   }
 
+  @Test
+  public void testBinarySearch10() {
+    int target = 63;
+    Integer[] data = new Integer[]{1, 21, 11, 19, 2, 27, 31, 63};
+    boolean existed = this.search(data, target, Comparator.comparingInt(a -> a), Integer.class);
+    Assert.assertTrue(existed);
+  }
+
+  @Test
+  public void testBinarySearch11() {
+    int target = 1;
+    Integer[] data = new Integer[]{1, 21, 11, 19, 2, 27, 31, 63};
+    boolean existed = this.search(data, target, Comparator.comparingInt(a -> a), Integer.class);
+    Assert.assertTrue(existed);
+  }
+
 
   public <T> boolean search(@NotNull final T[] dataArr, T target, Comparator<T> comparator, Class<T> clazz) {
     T tmpData[] = null;
