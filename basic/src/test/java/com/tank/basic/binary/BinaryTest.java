@@ -108,8 +108,41 @@ public class BinaryTest {
     Assert.assertTrue(existed);
   }
 
+  @Test
+  public void testSortedBy() {
+    Integer[] dataArr = new Integer[]{1, 21, 11, 19, 2, 27, 31, 63};
+    this.sortedBy(dataArr, Comparator.comparingInt(a -> a));
+    for (Integer data : dataArr) {
+      System.out.println(data);
+    }
+  }
 
-  public <T> boolean search(@NotNull final T[] dataArr, T target, Comparator<T> comparator, Class<T> clazz) {
+  @Test
+  public void testSortedByDesc() {
+    Integer[] dataArr = new Integer[]{1, 21, 11, 19, 2, 27, 31, 63};
+    this.sortedBy(dataArr, Comparator.comparingInt(a -> -a));
+    for (Integer data : dataArr) {
+      System.out.println(data);
+    }
+  }
+
+  @Test
+  public void testSortedByObjectDesc() {
+
+    this.sortedBy(this.students, Comparator.comparingInt(Student::getAge));
+    for (Student data : this.students) {
+      System.out.println(data.getAge());
+    }
+  }
+
+
+  private <T> T[] sortedBy(@NotNull final T[] arr, @NotNull final Comparator<T> comparator) {
+    Arrays.sort(arr, comparator);
+    return arr;
+  }
+
+
+  private <T> boolean search(@NotNull final T[] dataArr, T target, Comparator<T> comparator, Class<T> clazz) {
     T tmpData[] = null;
     if (dataArr.length == 1) {
       return target.equals(dataArr[0]);
@@ -138,7 +171,7 @@ public class BinaryTest {
 
   }
 
-  public boolean search(@NotNull final int[] data, int target) {
+  private boolean search(@NotNull final int[] data, int target) {
     int tmpData[] = null;
     if (data.length == 1) {
       return data[0] == target;
