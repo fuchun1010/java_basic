@@ -1,12 +1,16 @@
 package com.tank.basic.binary;
 
 import com.sun.istack.internal.NotNull;
+import com.tank.basic.vo.Student;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class BinaryTest {
 
@@ -14,6 +18,12 @@ public class BinaryTest {
   @Before
   public void init() {
     data = new int[]{1, 2, 11, 19, 21, 27};
+    List<Student> studentList = Arrays.stream(data).boxed().map(i -> {
+      String name = String.format("x_%d", i);
+      return new Student(name, i);
+    }).collect(Collectors.toList());
+    students = new Student[studentList.size()];
+    students = studentList.toArray(students);
   }
 
   @Test
@@ -63,7 +73,23 @@ public class BinaryTest {
 
   @Test
   public void testBinarySearch7() {
-    //TODO don't forget write one test case for
+    Student target = new Student().setName("target").setAge(11);
+    boolean existed = this.search(students, target, Comparator.comparingInt(Student::getAge), Student.class);
+    Assert.assertTrue(existed);
+  }
+
+  @Test
+  public void testBinarySearch8() {
+    Integer[] data = new Integer[]{1, 2, 11, 19, 21, 27};
+    boolean existed = this.search(data, 19, Comparator.comparingInt(a -> a), Integer.class);
+    Assert.assertTrue(existed);
+  }
+
+  @Test
+  public void testBinarySearch9() {
+    Integer[] data = new Integer[]{1, 21, 11, 19, 2, 27, 31, 63};
+    boolean existed = this.search(data, 99, Comparator.comparingInt(a -> a), Integer.class);
+    Assert.assertFalse(existed);
   }
 
 
@@ -80,14 +106,10 @@ public class BinaryTest {
     if (comparator.compare(tmpValue, target) == 1) {
       //copy left array data
       int offsetPosition = dataArr.length - middleIndex > 1 ? middleIndex + 1 : middleIndex;
-      //tmpData = new T[offsetPosition]();
-      //(T[]) (new Object[offsetPosition])
       tmpData = (T[]) (Array.newInstance(clazz, offsetPosition));
       System.arraycopy(dataArr, start, tmpData, 0, tmpData.length);
     } else {
       //copy right array data
-      //tmpData = new T[dataArr.length - middleIndex] ();
-      //tmpData = (T[]) (new Object[dataArr.length - middleIndex]);
       tmpData = (T[]) (Array.newInstance(clazz, dataArr.length - middleIndex));
       System.arraycopy(dataArr, middleIndex, tmpData, 0, tmpData.length);
     }
@@ -130,5 +152,7 @@ public class BinaryTest {
   }
 
   private int[] data;
+
+  private Student[] students;
 
 }

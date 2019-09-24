@@ -23,6 +23,8 @@ public class Person {
 
   private Date birth;
 
+  private String age;
+
   @Override
   public String toString() {
     val sb = new StringJoiner(",");
