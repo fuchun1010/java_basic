@@ -1,7 +1,6 @@
 package com.tank.basic.tree;
 
 
-import com.sun.istack.internal.NotNull;
 import lombok.NonNull;
 
 import java.util.Objects;
@@ -39,7 +38,7 @@ public class Node extends TreeNode {
     }
   }
 
-  private Optional<TreeNode> search(@NonNull TreeNode treeNode, @NotNull Long id) {
+  private Optional<TreeNode> search(@NonNull final TreeNode treeNode, @NonNull final Long id) {
 
     if (treeNode.getId().compareTo(id) == 0) {
       return Optional.of(treeNode);
