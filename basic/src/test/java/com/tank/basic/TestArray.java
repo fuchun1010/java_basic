@@ -4,6 +4,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,6 +36,33 @@ public class TestArray {
 
   }
 
+  @Test
+  public void testMod1() {
+    int a = 21;
+    System.out.println(a & (mod - 1));
+  }
+
+  @Test
+  public void testDiv1() {
+    int a = 21;
+    System.out.println(a >> Integer.bitCount(this.mod - 1));
+  }
+
+  @Test
+  public void test2() {
+    DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    LocalDateTime rs = LocalDateTime.parse("2018-10-24 19:43:45", df);
+    ZonedDateTime zone = rs.atZone(ZoneId.systemDefault());
+    System.out.println(zone.toInstant().getEpochSecond());
+  }
+
+  @Test
+  public void testSecond() {
+    int rs = Integer.MAX_VALUE / 3600;
+    System.out.println(rs / (24 * 365));
+  }
+
+  private int mod = 8;
 
   private List<String> rs;
 }
