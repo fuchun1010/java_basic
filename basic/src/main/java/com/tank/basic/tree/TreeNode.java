@@ -1,8 +1,6 @@
 package com.tank.basic.tree;
 
 import com.google.common.collect.Lists;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.List;
 import java.util.Objects;
@@ -27,7 +25,7 @@ public abstract class TreeNode {
       return false;
     }
     TreeNode node = (TreeNode) obj;
-    return node.id.compareTo(this.getId()) == 0;
+    return node.id.compareTo(this.id) == 0;
   }
 
   /**
@@ -36,9 +34,7 @@ public abstract class TreeNode {
    * @return
    */
   public abstract boolean isLeaf();
-  
-  @Getter
-  @Setter
+
   public Long id;
 
   protected List<TreeNode> treeNodes = Lists.newLinkedList();

@@ -20,9 +20,10 @@ public class Node extends TreeNode {
   }
 
 
-  public Optional<TreeNode> search(@NonNull Long id) {
-    return this.search(this, id);
+  public Optional<TreeNode> search(final Long nodeId) {
+    return this.search(this, nodeId);
   }
+
 
   public void print() {
     System.out.println(this.toString());
@@ -40,12 +41,12 @@ public class Node extends TreeNode {
 
   private Optional<TreeNode> search(@NonNull final TreeNode treeNode, @NonNull final Long id) {
 
-    if (treeNode.getId().compareTo(id) == 0) {
+    if (treeNode.id.compareTo(id) == 0) {
       return Optional.of(treeNode);
     }
 
     for (TreeNode node : treeNode.treeNodes) {
-      if (node.getId().compareTo(id) == 0) {
+      if (node.id.compareTo(id) == 0) {
         return Optional.of(node);
       }
       if (!node.isLeaf()) {
