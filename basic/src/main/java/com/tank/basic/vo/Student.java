@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -15,6 +16,11 @@ import java.util.Objects;
 @AllArgsConstructor
 @Accessors(chain = true)
 public class Student {
+
+  public Student(String name, int age) {
+    this.name = name;
+    this.age = age;
+  }
 
   @Override
   public boolean equals(Object obj) {
@@ -36,4 +42,6 @@ public class Student {
   private String name;
 
   private int age;
+
+  private List<String> address;
 }

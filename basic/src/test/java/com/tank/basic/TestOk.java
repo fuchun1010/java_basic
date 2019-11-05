@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.junit.Test;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -24,6 +26,20 @@ public class TestOk {
     records.add(a);
 
     System.out.println(records.contains(b));
+  }
+
+  @Test
+  public void testHashCode() {
+    String msg = "水晶红富士(大)小";
+    String itemCode = Objects.hashCode(msg) < 0 ? String.format("%s_%d", "100041", Math.abs(Objects.hashCode(msg))) : String.format("%s_%d", "100041", Objects.hashCode(msg));
+    System.out.println(itemCode);
+    System.out.println(itemCode.length());
+
+    double rs = BigDecimal.valueOf(40).divide(BigDecimal.valueOf(140), 2, RoundingMode.UP).doubleValue();
+    double rs2 = BigDecimal.valueOf(100).divide(BigDecimal.valueOf(140), 2, RoundingMode.UP).doubleValue();
+    System.out.println(rs);
+    System.out.println(rs2);
+
   }
 
   @Test
@@ -154,4 +170,6 @@ public class TestOk {
       return Objects.hash(name);
     }
   }
+
+
 }
